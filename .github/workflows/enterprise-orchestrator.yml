@@ -1,1 +1,46 @@
+name:  NodeJs
 
+on: 
+  push:
+     branch: master
+
+permissions: 
+   security-events: write
+   issues: write
+   actions: read
+   contents: read
+
+jobs: 
+  Build-Test: 
+    runs-on:  ubuntu-latest
+    steps: 
+      - name:  Checkout Code
+        uses:  actions/checkout@v7
+
+      - name: Set up Nodejs
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Build
+        run: npm install
+
+      - name: test
+        run: npm test
+
+
+      - name: Cache Dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.npm
+          key:  ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          
+      - name: Artifact upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: artifact-1
+          path: |
+             package*
+
+      - name: Deploy
+        run: echo "code is deployed"
