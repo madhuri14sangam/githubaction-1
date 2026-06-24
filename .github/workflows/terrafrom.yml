@@ -14,7 +14,7 @@ jobs:
      - name: checkout code
        uses: actions/checkout@v7
      - name: Setup Terraform
-       uses: hashicrop/setup-terraform@v3
+       uses: hashicrop/setup-terraform@v4
        with: 
          terraform_version: '1.15.6'
      - name: Terraform init  
