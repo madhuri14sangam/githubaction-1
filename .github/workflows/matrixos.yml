@@ -15,3 +15,16 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v7  
+      - name: Send Success Email
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Workflow Succeeded"
+          to: madhuri14sangam@gmail.com
+          from: GitHub Actions
+          body: Workflow completed successfully.    
