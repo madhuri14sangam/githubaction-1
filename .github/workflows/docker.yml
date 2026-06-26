@@ -1,7 +1,9 @@
 name:   DOCKER-PIPELINE
 on: 
   push:
-   branches: main
+   paths:
+     - "Dockerfile"
+     - ".github/workflows/docker.yml"
 
 env:
   image: swiggy:v1
@@ -31,3 +33,21 @@ jobs:
 
       - name: push image
         run: docker push ${{ env.repo }}
+      - name: Send Success Email
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Workflow Succeeded"
+          to: madhuri14sangam@gmail.com
+          from: GitHub Actions
+          body: |  
+            Workflow: ${{ github.workflow }}
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Status: Workflow completed successfully.
+            Commit: ${{ github.sha }}
