@@ -2,7 +2,6 @@ name: matrixos
 on:
   push:
     paths:
-      - matrixos.yml
       - ".github/workflows/matrixos.yml"
 jobs:
   build:
@@ -29,4 +28,9 @@ jobs:
           subject: "Workflow Succeeded"
           to: madhuri14sangam@gmail.com
           from: GitHub Actions
-          body: Workflow completed successfully.    
+          body: |
+            Workflow: ${{ github.workflow }}
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Status: Workflow completed successfully. 
+            Commit: ${{ github.sha }}   
