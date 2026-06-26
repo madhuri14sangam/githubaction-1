@@ -1,7 +1,9 @@
 name: Node.js
 on:
   push:
-    branches: main
+    paths:
+      - nodejs-Workflow
+      - ".github/workflows/nodejs-Workflow.yml"
 permissions:
   security-events: write
   actions: read
