@@ -2,7 +2,6 @@ name: Node.js
 on:
   push:
     paths:
-      - nodejs-Workflow
       - ".github/workflows/nodejs-Workflow.yml"
 permissions:
   security-events: write
@@ -36,5 +35,23 @@ jobs:
             package*
       - name: deploy
         run: echo "code is deployed"
+      - name: Send Success Email
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Workflow Succeeded"
+          to: madhuri14sangam@gmail.com
+          from: GitHub Actions
+          body: |  
+            Workflow: ${{ github.workflow }}
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Status: Workflow completed successfully.
+            Commit: ${{ github.sha }}   
 
         
