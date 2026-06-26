@@ -1,7 +1,9 @@
 name: matrixos
 on:
   push:
-    branches: main
+    paths:
+      - matrixos.yml
+      - ".github/workflows/matrixos.yml"
 jobs:
   build:
     runs-on: ${{ matrix.os }}
