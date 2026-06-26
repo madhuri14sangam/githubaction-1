@@ -1,0 +1,38 @@
+name: sast
+on:
+ push:
+   paths:
+     - ".github/workflows/sast.yml"
+jobs:
+   codeql-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v7
+      - name: intialize codeql
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+          queries: security-extended
+      - name: autobuild
+        uses: github/codeql-action/autobuild@v3
+      - name: perform codeql analysis
+        uses: github/codeql-qction/analysis@v3
+      - name: Send Success Email
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Workflow Succeeded"
+          to: madhuri14sangam@gmail.com
+          from: GitHub Actions
+          body: |  
+            Workflow: ${{ github.workflow }}
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Status: Workflow completed successfully.
+            Commit: ${{ github.sha }}  
