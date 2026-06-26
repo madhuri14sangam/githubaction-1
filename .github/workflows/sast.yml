@@ -17,7 +17,7 @@ jobs:
       - name: autobuild
         uses: github/codeql-action/autobuild@v3
       - name: perform codeql analysis
-        uses: github/codeql-qction/analysis@v3
+        uses: github/codeql-action/analysis@v3
       - name: Send Success Email
         if: success()
         uses: dawidd6/action-send-mail@v3
