@@ -1,21 +1,31 @@
 name: sast
 on:
  push:
-   paths:
-     - ".github/workflows/sast.yml"
+  branches:
+    - main
+  paths:
+    - ".github/workflows/sast.yml"
+ workflow_dispatch:  
+permissions:
+  actions: read
+  contents: read
+  security-events: write
 jobs:
    codeql-analysis:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
         uses: actions/checkout@v7
+        
       - name: intialize codeql
         uses: github/codeql-action/init@v3
         with:
           languages: javascript
           queries: security-extended
+          
       - name: autobuild
         uses: github/codeql-action/autobuild@v3
+        
       - name: perform codeql analysis
         uses: github/codeql-action/analyze@v3
       - name: Send Success Email
